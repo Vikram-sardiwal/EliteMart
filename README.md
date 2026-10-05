@@ -270,3 +270,34 @@ EliteMart/
 
 └── README.md
 
+---
+
+## 📸 Screenshots
+
+### 🏠 Home Page
+
+![EliteMart Home Page](frontend/public/screenshots/home.png)
+
+### 🛍️ Products Page
+
+![EliteMart Products Page](frontend/public/screenshots/products.png)
+
+### 📦 Product Details
+
+![EliteMart Product Details](frontend/public/screenshots/product-details.png)
+
+### 🛒 Cart
+
+![EliteMart Cart](frontend/public/screenshots/cart.png)
+
+### 💳 Checkout
+
+![EliteMart Checkout](frontend/public/screenshots/checkout.png)
+
+### 🤖 AI Shopping Assistant
+
+![EliteMart AI Chatbot](frontend/public/screenshots/chatbot.png)
+![EliteMart AI Chatbot Response](frontend/public/screenshots/chatbot-response.png)
+
+![EliteMart AI Chatbot Product Response](frontend/public/screenshots/chatbot-response-item.png)
+

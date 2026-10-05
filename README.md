@@ -299,5 +299,5 @@ EliteMart/
 ![EliteMart AI Chatbot](frontend/public/screenshots/chatbot.png)
 ![EliteMart AI Chatbot Response](frontend/public/screenshots/chatbot-response.png)
 
-![EliteMart AI Chatbot Product Response](frontend/public/screenshots/chatbot-response-item.png)
+![EliteMart AI Chatbot Product Response](frontend/public/screenshots/chatbot-response-items.png)
 

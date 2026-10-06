@@ -1,3 +1,4 @@
+
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,8 +9,10 @@ import {
   faBars,
   faXmark,
   faMagnifyingGlass,
+  faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+
 import API from "../services/api";
 
 export default function Navbar() {
@@ -19,6 +22,7 @@ export default function Navbar() {
   const [products, setProducts] = useState([]);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [categoryMenu, setCategoryMenu] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,6 +36,20 @@ export default function Navbar() {
     };
 
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        console.log("User data error:", error);
+        localStorage.removeItem("user");
+        setUser(null);
+      }
+    }
   }, []);
 
   const genders = [
@@ -49,6 +67,24 @@ export default function Navbar() {
         .filter(Boolean),
     ),
   ];
+
+  // Logout
+  const handleLogout = async () => {
+    try {
+      await API.post("/auth/logout");
+
+      localStorage.removeItem("user");
+
+      setUser(null);
+
+      setMobileMenu(false);
+      setCategoryMenu(false);
+
+      navigate("/login");
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
+  };
 
   const handleSearch = (e) => {
     if (e.key === "Enter" && search.trim()) {
@@ -148,13 +184,23 @@ export default function Navbar() {
             <FontAwesomeIcon icon={faHeart} />
           </NavLink>
 
-          <NavLink
-            to="/login"
-            className="text-gray-700 transition hover:text-black"
-            title="Profile"
-          >
-            <FontAwesomeIcon icon={faUser} />
-          </NavLink>
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="text-gray-700 transition hover:text-black"
+              title="Logout"
+            >
+              <FontAwesomeIcon icon={faRightFromBracket} />
+            </button>
+          ) : (
+            <NavLink
+              to="/login"
+              className="text-gray-700 transition hover:text-black"
+              title="Login"
+            >
+              <FontAwesomeIcon icon={faUser} />
+            </NavLink>
+          )}
 
           <NavLink
             to="/cart"
@@ -248,14 +294,25 @@ export default function Navbar() {
                 Wishlist
               </NavLink>
 
-              <NavLink
-                to="/login"
-                onClick={closeMobileMenu}
-                className="flex flex-col items-center gap-2 text-xs"
-              >
-                <FontAwesomeIcon icon={faUser} />
-                Profile
-              </NavLink>
+              {user ? (
+                <button
+                  onClick={handleLogout}
+                  className="flex flex-col items-center gap-2 text-xs"
+                  title="Logout"
+                >
+                  <FontAwesomeIcon icon={faRightFromBracket} />
+                  Logout
+                </button>
+              ) : (
+                <NavLink
+                  to="/login"
+                  onClick={closeMobileMenu}
+                  className="flex flex-col items-center gap-2 text-xs"
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                  Profile
+                </NavLink>
+              )}
 
               <NavLink
                 to="/cart"

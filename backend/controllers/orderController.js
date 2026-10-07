@@ -26,7 +26,6 @@ const verifyRazorpayPayment = async (req, res) => {
       });
     }
 
-    // Payment verified successfully
     const cart = await Cart.findOne({
       user: req.user.id,
     }).populate("items.product");
@@ -56,6 +55,7 @@ const verifyRazorpayPayment = async (req, res) => {
       shippingAddress,
       totalAmount,
       paymentMethod: "razorpay",
+      paymentStatus: "paid",
       orderStatus: "paid",
     });
 
@@ -79,21 +79,26 @@ const verifyRazorpayPayment = async (req, res) => {
 const createRazorpayOrder = async (req, res) => {
   try {
     const { amount } = req.body;
+
     const options = {
       amount: amount * 100,
       currency: "INR",
       receipt: "receipt__" + Date.now(),
     };
+
     console.log("Razorpay options:", options);
+
     const order = await razorpay.orders.create(options);
 
     console.log("Razorpay order:", order);
+
     res.status(200).json({
       success: true,
       order,
     });
   } catch (error) {
     console.log("RAZORPAY CREATE ORDER ERROR:", error);
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -104,6 +109,14 @@ const createRazorpayOrder = async (req, res) => {
 const createOrder = async (req, res) => {
   try {
     const { shippingAddress, paymentMethod } = req.body;
+
+    // Only COD is allowed through this API
+    if (paymentMethod !== "cod") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payment method",
+      });
+    }
 
     const cart = await Cart.findOne({
       user: req.user.id,
@@ -133,22 +146,24 @@ const createOrder = async (req, res) => {
       items,
       shippingAddress,
       totalAmount,
-      paymentMethod,
+      paymentMethod: "cod",
+      paymentStatus: "pending",
+      orderStatus: "placed",
     });
 
     await Cart.findOneAndUpdate({ user: req.user.id }, { $set: { items: [] } });
 
     res.status(201).json({
       success: true,
-      message: "Order created successfully",
+      message: "COD order placed successfully",
       order,
     });
   } catch (error) {
-    console.log(error.message);
+    console.log("COD ORDER ERROR:", error);
 
     res.status(500).json({
       success: false,
-      message: "Order creation failed",
+      message: "COD order creation failed",
       error: error.message,
     });
   }
@@ -167,12 +182,12 @@ const getMyOrders = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
-    (res.status(500).
-      json({
-        success: false,
-        message: "Failed to fetch orders",
-        error: error.message,
-      }));
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch orders",
+      error: error.message,
+    });
   }
 };
 

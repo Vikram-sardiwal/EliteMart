@@ -39,7 +39,8 @@ app.use("/wishlist", wishlistRoutes);
 
 const path = require("path");
 
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const chatbotRoutes = require("./routes/chatbotRoutes");
 

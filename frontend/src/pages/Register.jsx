@@ -17,28 +17,23 @@ export default function Register() {
 
     const newErrors = {};
 
-  
     if (!name.trim()) {
       newErrors.name = "Name is required";
     } else if (name.trim().length < 3) {
       newErrors.name = "Name must be at least 3 characters";
     }
 
-    
     if (!email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = "Enter a valid email";
     }
 
-
     if (!password) {
       newErrors.password = "Password is required";
     } else if (password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
-
-    
     if (!confirmpassword) {
       newErrors.confirmpassword = "Please confirm your password";
     } else if (password !== confirmpassword) {
@@ -89,8 +84,6 @@ export default function Register() {
               Create your EliteMart account
             </p>
           </div>
-
-        
           <div className="mb-6">
             <label className="block text-sm font-medium text-black mb-2">
               Name
@@ -112,7 +105,6 @@ export default function Register() {
             )}
           </div>
 
-         
           <div className="mb-6">
             <label className="block text-sm font-medium text-black mb-2">
               Email
@@ -134,7 +126,6 @@ export default function Register() {
             )}
           </div>
 
-         
           <div className="mb-6">
             <label className="block text-sm font-medium text-black mb-2">
               Password
@@ -156,7 +147,6 @@ export default function Register() {
             )}
           </div>
 
-          
           <div className="mb-8">
             <label className="block text-sm font-medium text-black mb-2">
               Confirm Password
@@ -180,7 +170,6 @@ export default function Register() {
             )}
           </div>
 
-     
           <button
             type="submit"
             className="w-full h-12 bg-black text-white text-sm font-medium hover:bg-gray-800 transition"
@@ -188,7 +177,6 @@ export default function Register() {
             CREATE ACCOUNT
           </button>
 
-        
           <p className="text-center text-sm text-gray-600 mt-8">
             Already have an account?{" "}
             <span

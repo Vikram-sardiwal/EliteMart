@@ -21,19 +21,19 @@ app.use(cookieParser());
 app.use("/auth", authRoutes);
 app.use("/products", productRoutes);
 //admin routes
-const adminRoutes = require("./routes/adminRoutes");
+const adminRoutes = require("./routes/adminRoutes.js");
 app.use("/admin", adminRoutes);
 
-const cartRoutes = require("./routes/cartRoutes");
+const cartRoutes = require("./routes/cartRoutes.js");
 app.use("/cart", cartRoutes);
 
-const orderRoutes = require("./routes/orderRoutes");
+const orderRoutes = require("./routes/orderRoutes.js");
 app.use("/orders", orderRoutes);
 
 const reviewRoutes = require("./routes/reviewRoutes.js");
 app.use("/review", reviewRoutes);
 
-const wishlistRoutes = require("./routes/wishlistRoutes");
+const wishlistRoutes = require("./routes/wishlistRoutes.js");
 
 app.use("/wishlist", wishlistRoutes);
 
@@ -42,7 +42,7 @@ const path = require("path");
 // app.use("/uploads", express.static("uploads"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-const chatbotRoutes = require("./routes/chatbotRoutes");
+const chatbotRoutes = require("./routes/chatbotRoutes.js");
 
 app.use("/api/chatbot", chatbotRoutes);
 
